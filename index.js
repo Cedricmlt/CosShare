@@ -2,6 +2,7 @@ import express, { Router } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import usersRoutes from "./route/usersRoutes.js";
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
     res.send('Bienvenue sur l\'API CosShare !');
 });
 
-// app.use('/api');
+app.use("/api/users", usersRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });
@@ -30,9 +31,14 @@ app.use((req, res) => {
 
 
 app.use((err, req, res, next) => {
+    console.error('❌ ERREUR :', err.message);
     console.error(err.stack);
-    res.status(500).json({ message: 'Erreur serveur interne' });
+
+    res.status(err.status || 500).json({
+        message: err.message || 'Erreur serveur interne'
+    });
 });
+
 
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`Connexion à la base de données réussie ✅' http://localhost:${process.env.SERVER_PORT}`)
