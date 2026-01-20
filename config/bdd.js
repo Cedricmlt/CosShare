@@ -13,11 +13,11 @@ const bdd = mysql.createPool({
 
 const testConnection = async () => {
     try {
-        const connection = await db.getConnection();
-        console.log('✅ Connexion à la base de données réussie');
+        const connection = await bdd.getConnection();
+        console.log('Connexion à la base de données réussie ✅');
         connection.release();
     } catch (error) {
-        console.error('❌ Erreur de connexion à la base de données:', error.message);
+        console.error('Erreur de connexion à la base de données: ❌', error.message);
     }
 };
 
