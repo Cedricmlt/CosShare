@@ -2,6 +2,7 @@ import usersModel from "../model/usersModel.js";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import emailService from "../services/emailService.js";
 
 dotenv.config();
 
@@ -76,6 +77,57 @@ const searchUser = async (req, res) => {
     }
 }
 
+// Demande de réinitialisation de mot de passe
+const forgotPassword = async (req, res) => {
+    try {
+        const { email_connexion } = req.body;
+
+        if (!email_connexion) {
+            return res.status(400).json({ message: "L'email est requis." });
+        }
+
+        const findUserEmail = await usersModel.getUserByEmail(email_connexion);
+        if (!findUserEmail) {
+            return res.status(404).json({ message: "Aucun utilisateur trouvé avec cet email." });
+        }
+
+        const token = await usersModel.generateResetToken(email_connexion);
+        console.log(token);
+
+        const resetLink = `http://localhost:3000/api/reset-password/${token}`;
+
+        await emailService.sendResetEmail(email_connexion, resetLink);
+
+        return res.status(200).json({ message: "Un email de réinitialisation de mot de passe a été envoyé ✅." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Impossible de générer le token de réinitialisation." });
+    }
+};
+
+// Réinitialisation du mot de passe
+const resetPassword = async (req, res) => {
+    try {
+        const { token, password } = req.body;
+
+        if (!token || !password) {
+            return res.status(400).json({ message: "Le token et le nouveau mot de passe sont requis." });
+        }
+
+        const userResetToken = await usersModel.getUserByResetToken(token);
+        if (!userResetToken) {
+            return res.status(400).json({ message: "Token invalide ou expiré." });
+        }
+
+        await usersModel.updatePassword(token, password);
+
+        return res.status(200).json({ message: "Mot de passe réinitialisé avec succès ✅." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Réinitialisation du mot de passe impossible." });
+    }
+};
+
 const createUser = async (req, res) => {
     try {
         const { email_connexion, password, prenom, nom, pseudo } = req.body;
@@ -108,6 +160,7 @@ const createUser = async (req, res) => {
         );
 
         if (newUser) {
+
             return res.status(201).json({ message: "Création d'un utilisateur réussie ✅", newUser });
         } else {
             return res.status(404).json({ message: "Impossible de créer l'utilisateur ❌." });
@@ -192,6 +245,8 @@ export default {
     getUserById,
     getUserByEmail,
     searchUser,
+    forgotPassword,
+    resetPassword,
     createUser,
     updateUser,
     deleteUser,

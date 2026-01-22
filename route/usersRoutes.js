@@ -9,6 +9,8 @@ const router = express.Router();
 router.get("/search", usersController.searchUser);
 router.post("/login/", usersController.login);
 router.post("/register", usersController.createUser);
+router.post("/forgot-password", usersController.forgotPassword);
+router.post("/reset-password", usersController.resetPassword);
 
 // Routes paramétrées:
 router.get("/", checkToken, usersController.getAllUsers);
