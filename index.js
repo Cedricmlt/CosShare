@@ -3,6 +3,9 @@ import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import usersRoutes from "./route/usersRoutes.js";
+import publicationsRoutes from "./route/publicationsRoutes.js";
+import rolesRoutes from "./route/rolesRoutes.js";
+import usersRoleRoutes from "./route/usersRoleRoutes.js";
 
 dotenv.config();
 
@@ -24,6 +27,9 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/users", usersRoutes);
+app.use("/api/publication", publicationsRoutes);
+app.use("/api/role", rolesRoutes);
+app.use("/api/users-role", usersRoleRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });

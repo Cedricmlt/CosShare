@@ -16,7 +16,7 @@ const getPublicationById = async (req, res) => {
         const publication = await publicationModel.getPublicationById(publicationId);
 
         if (publication) {
-            return res.status(200).json({ message: "Récupération de la publication via son ID. ✅", publication });
+            return res.status(200).json({ message: "Récupération de la publication via son ID réussie. ✅", publication });
         } else {
             return res.status(404).json({ message: "Aucune publication trouvée." });
         }
@@ -28,13 +28,13 @@ const getPublicationById = async (req, res) => {
 
 const createPublication = async (req, res) => {
     try {
-        const { description } = req.body;
+        const { users_Id, description } = req.body;
 
-        if (!description) {
-            return res.status(400).json({ message: "La description est requise." });
+        if (!users_Id | !description) {
+            return res.status(400).json({ message: "Les champs users_Id et description sont requis." });
         }
 
-        const newPublication = await publicationModel.createPublication(description);
+        const newPublication = await publicationModel.createPublication(users_Id, description);
 
         if (newPublication) {
             return res.status(201).json({ message: "Création de la publication réussie.✅", newPublication })
