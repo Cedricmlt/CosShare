@@ -13,7 +13,7 @@ const getAllUsers = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: "Impossible de récupérer tous les utilisateurs ❌" });
     }
-}
+};
 
 const getUserById = async (req, res) => {
     try {
@@ -28,7 +28,7 @@ const getUserById = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: "Impossible de récupérer l'utilisateur via son ID ❌" });
     }
-}
+};
 
 const getUserByEmail = async (req, res) => {
 
@@ -51,7 +51,7 @@ const getUserByEmail = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Récupération de l'utilisateur impossible." });
     }
-}
+};
 
 const searchUser = async (req, res) => {
     try {
@@ -75,7 +75,7 @@ const searchUser = async (req, res) => {
         return res.status(500).json({ message: "Impossible de rechercher un utilisateur." });
 
     }
-}
+};
 
 // Demande de réinitialisation de mot de passe
 const forgotPassword = async (req, res) => {
@@ -170,7 +170,7 @@ const createUser = async (req, res) => {
         console.log(error);
         return res.status(500).json({ message: "Création d'un utilisateur impossible." });
     }
-}
+};
 
 const updateUser = async (req, res) => {
     try {
@@ -187,7 +187,7 @@ const updateUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: "Mise à jour de l'utilisateur impossible." });
     }
-}
+};
 
 const deleteUser = async (req, res) => {
     try {
@@ -202,7 +202,7 @@ const deleteUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: "Suppression impossible de l'utilisateur." });
     }
-}
+};
 
 const login = async (req, res) => {
     try {
@@ -238,7 +238,7 @@ const login = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Connexion de l'utilisateur impossible." });
     }
-}
+};
 
 export default {
     getAllUsers,
@@ -251,4 +251,4 @@ export default {
     updateUser,
     deleteUser,
     login
-}
+};

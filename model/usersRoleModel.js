@@ -9,7 +9,7 @@ const getAllUsersRoles = async () => {
     INNER JOIN role ON users_role.role_Id = role.id_Role`;
     const [rows] = await bdd.query(sql);
     return rows;
-}
+};
 
 const getUserRoleById = async (users_Id, role_Id) => {
     const sql = `SELECT users_Id, role_Id, 
@@ -21,7 +21,7 @@ const getUserRoleById = async (users_Id, role_Id) => {
     WHERE users_Id = ? AND role_Id = ?`;
     const [rows] = await bdd.query(sql, [users_Id, role_Id]);
     return rows[0];
-}
+};
 
 const getUserRoleOfUserId = async (users_Id) => {
     const sql = `SELECT users_Id, role_Id, users.email_connexion, users.prenom, users.nom, users.pseudo, role.libelle, role.description FROM users_role
@@ -49,7 +49,7 @@ const deleteUserRole = async (users_Id, role_Id) => {
     const sql = `DELETE FROM users_role WHERE users_Id = ? AND role_Id = ?;`;
     const [result] = await bdd.query(sql, [users_Id, role_Id]);
     return result.affectedRows;
-}
+};
 
 export default {
     getAllUsersRoles,
@@ -58,4 +58,4 @@ export default {
     createUserRole,
     updateUserRole,
     deleteUserRole
-}
+};

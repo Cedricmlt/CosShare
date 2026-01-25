@@ -8,7 +8,7 @@ const getAllPublications = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Récupération des publications impossible." });
     }
-}
+};
 
 const getPublicationById = async (req, res) => {
     try {
@@ -24,7 +24,7 @@ const getPublicationById = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Récupération des publications impossible." });
     }
-}
+};
 
 const createPublication = async (req, res) => {
     try {
@@ -46,7 +46,7 @@ const createPublication = async (req, res) => {
         return res.status(500).json({ message: "Echec lors de la création de la publication." });
 
     }
-}
+};
 
 const updatePublication = async (req, res) => {
     try {
@@ -63,7 +63,7 @@ const updatePublication = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Impossible de mettre à jour la publication." });
     }
-}
+};
 
 const deletePublication = async (req, res) => {
     try {
@@ -80,7 +80,7 @@ const deletePublication = async (req, res) => {
         return res.status(500).json({ message: "Impossible de supprimer la publication." });
 
     }
-}
+};
 
 export default {
     getAllPublications,
@@ -88,4 +88,4 @@ export default {
     createPublication,
     updatePublication,
     deletePublication
-}
+};

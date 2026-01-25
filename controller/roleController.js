@@ -9,7 +9,7 @@ const getAllRoles = async (req, res) => {
         return res.status(500).json({ message: "Récupération des roles impossible." });
 
     }
-}
+};
 
 const getRoleById = async (req, res) => {
     try {
@@ -26,7 +26,7 @@ const getRoleById = async (req, res) => {
         return res.status(500).json({ message: "Récupération du role via son ID impossible." });
 
     }
-}
+};
 
 const createRole = async (req, res) => {
     try {
@@ -47,7 +47,7 @@ const createRole = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Un problème est survenu lors de la création du role." });
     }
-}
+};
 
 const updateRole = async (req, res) => {
     try {
@@ -65,7 +65,7 @@ const updateRole = async (req, res) => {
         return res.status(500).json({ message: "Un problème est survenu lors de la mise à jour du role." });
 
     }
-}
+};
 
 const deleteRole = async (req, res) => {
     try {
@@ -82,7 +82,7 @@ const deleteRole = async (req, res) => {
         return res.status(500).json({ message: "Un problème est survenu lors de la suppression du role." });
 
     }
-}
+};
 
 export default {
     getAllRoles,
@@ -90,4 +90,4 @@ export default {
     createRole,
     updateRole,
     deleteRole
-}
+};

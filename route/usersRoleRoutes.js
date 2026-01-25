@@ -4,10 +4,12 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/", checkToken, usersRoleController.getAllUsersRoles);
-router.get("/:users_Id/:role_Id", checkToken, usersRoleController.getUserRoleById);
+// Routes accessibles à tous les utilisateurs connectés
 router.get("/user/:users_Id/role", checkToken, usersRoleController.getUserRolesByUserId);
 
+// Routes réservées aux admins
+router.get("/", checkToken, usersRoleController.getAllUsersRoles);
+router.get("/:users_Id/:role_Id", checkToken, usersRoleController.getUserRoleById);
 router.post("/", checkToken, usersRoleController.createUserRole);
 router.put("/:users_Id/:role_Id", checkToken, usersRoleController.updateUserRole);
 router.delete("/:users_Id/:role_Id", checkToken, usersRoleController.deleteUserRole);

@@ -12,7 +12,7 @@ const getAllUsers = async () => {
 
     const [rows] = await bdd.query(sql);
     return rows;
-}
+};
 
 const getUserById = async (id_Users) => {
 
@@ -22,7 +22,7 @@ const getUserById = async (id_Users) => {
 
     const [rows] = await bdd.query(sql, [id_Users]);
     return rows[0];
-}
+};
 
 const getUserByEmail = async (email_connexion) => {
 
@@ -50,7 +50,7 @@ const searchUser = async (searchTerm) => {
 
     }
     return [];
-}
+};
 
 // Générer un token de réinitialisation
 const generateResetToken = async (email_connexion) => {
@@ -98,7 +98,7 @@ const createUser = async (email_connexion, password, prenom, nom, pseudo, type_d
 
     const [result] = await bdd.query(sql, [email_connexion, password, prenom, nom, pseudo, type_de_compte, commentaire_interne, reset_token, email_verified]);
     return result.insertId;
-}
+};
 
 const updateUser = async (id_Users, email_connexion, password, prenom, nom, pseudo) => {
 
@@ -106,7 +106,7 @@ const updateUser = async (id_Users, email_connexion, password, prenom, nom, pseu
 
     const [result] = await bdd.query(sql, [email_connexion, password, prenom, nom, pseudo, id_Users]);
     return result.affectedRows;
-}
+};
 
 const deleteUser = async (id_Users) => {
 
@@ -114,7 +114,7 @@ const deleteUser = async (id_Users) => {
 
     const [result] = await bdd.query(sql, [id_Users]);
     return result.affectedRows;
-}
+};
 
 
 export default {
@@ -128,4 +128,4 @@ export default {
     createUser,
     updateUser,
     deleteUser
-}
+};

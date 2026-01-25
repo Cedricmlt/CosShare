@@ -6,6 +6,8 @@ import usersRoutes from "./route/usersRoutes.js";
 import publicationsRoutes from "./route/publicationsRoutes.js";
 import rolesRoutes from "./route/rolesRoutes.js";
 import usersRoleRoutes from "./route/usersRoleRoutes.js";
+import typeCosplayRoutes from "./route/typeCosplayRoutes.js";
+import universCosplayRoutes from "./route/universCosplayRoutes.js";
 
 dotenv.config();
 
@@ -30,6 +32,8 @@ app.use("/api/users", usersRoutes);
 app.use("/api/publication", publicationsRoutes);
 app.use("/api/role", rolesRoutes);
 app.use("/api/users-role", usersRoleRoutes);
+app.use("/api/type-cosplay", typeCosplayRoutes);
+app.use("/api/univers-cosplay", universCosplayRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });

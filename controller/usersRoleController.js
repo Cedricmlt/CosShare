@@ -10,7 +10,7 @@ const getAllUsersRoles = async (req, res) => {
         return res.status(500).json({ message: "Un problème est survenu lors de la récupération des roles associés." });
 
     }
-}
+};
 
 const getUserRoleById = async (req, res) => {
     try {
@@ -27,7 +27,7 @@ const getUserRoleById = async (req, res) => {
         return res.status(500).json({ message: "Un problème est survenu lors de la récupération du role associé." });
 
     }
-}
+};
 
 const getUserRolesByUserId = async (req, res) => {
     try {
@@ -79,7 +79,7 @@ const createUserRole = async (req, res) => {
         return res.status(500).json({ message: "Un problème est survenu lors de l'association du role à l'utilisateur." });
 
     }
-}
+};
 
 const updateUserRole = async (req, res) => {
     try {
@@ -97,7 +97,7 @@ const updateUserRole = async (req, res) => {
         return res.status(500).json({ message: "Un problème est survenu lors de la mise à jour de l'association du role." });
 
     }
-}
+};
 
 const deleteUserRole = async (req, res) => {
     try {
@@ -114,7 +114,7 @@ const deleteUserRole = async (req, res) => {
         return res.status(500).json({ message: "Un problème est survenu lors de la suppression de l'association du role." });
 
     }
-}
+};
 
 export default {
     getAllUsersRoles,
@@ -123,4 +123,4 @@ export default {
     createUserRole,
     updateUserRole,
     deleteUserRole
-}
+};
