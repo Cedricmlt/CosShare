@@ -61,7 +61,7 @@ const createUserRole = async (req, res) => {
         }
 
         // Vérifie si l'utilisateur a déjà un rôle
-        const existingUserRole = await usersRoleModel.getUserRoleByUserId(users_Id);
+        const existingUserRole = await usersRoleModel.getUserRoleByAttributes(users_Id, role_Id);
 
         if (existingUserRole) {
             return res.status(409).json({ message: "Un rôle est déjà associé à cet utilisateur." });
