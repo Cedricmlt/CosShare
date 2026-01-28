@@ -8,6 +8,11 @@ import rolesRoutes from "./route/rolesRoutes.js";
 import usersRoleRoutes from "./route/usersRoleRoutes.js";
 import typeCosplayRoutes from "./route/typeCosplayRoutes.js";
 import universCosplayRoutes from "./route/universCosplayRoutes.js";
+import outilsCosplayRoutes from "./route/outilsCosplayRoutes.js";
+import accessoiresCosplayRoutes from "./route/accessoiresCosplayRoutes.js";
+import fabricationCosplayRoutes from "./route/fabricationCosplayRoutes.js";
+import materiauxCosplayRoutes from "./route/materiauxCosplayRoutes.js";
+import cosplayRoutes from "./route/cosplayRoutes.js";
 
 dotenv.config();
 
@@ -34,6 +39,12 @@ app.use("/api/role", rolesRoutes);
 app.use("/api/users-role", usersRoleRoutes);
 app.use("/api/type-cosplay", typeCosplayRoutes);
 app.use("/api/univers-cosplay", universCosplayRoutes);
+app.use("/api/outils-cosplay", outilsCosplayRoutes);
+app.use("/api/accessoires-cosplay", accessoiresCosplayRoutes);
+app.use("/api/fabrication-cosplay", fabricationCosplayRoutes);
+app.use("/api/materiaux-cosplay", materiauxCosplayRoutes);
+app.use("/api/cosplay", cosplayRoutes);
+
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });
