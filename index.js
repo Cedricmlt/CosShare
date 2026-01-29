@@ -13,6 +13,7 @@ import accessoiresCosplayRoutes from "./route/accessoiresCosplayRoutes.js";
 import fabricationCosplayRoutes from "./route/fabricationCosplayRoutes.js";
 import materiauxCosplayRoutes from "./route/materiauxCosplayRoutes.js";
 import cosplayRoutes from "./route/cosplayRoutes.js";
+import mediaInPublicationRoutes from "./route/mediaInPublicationRoutes.js";
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use("/api/accessoires-cosplay", accessoiresCosplayRoutes);
 app.use("/api/fabrication-cosplay", fabricationCosplayRoutes);
 app.use("/api/materiaux-cosplay", materiauxCosplayRoutes);
 app.use("/api/cosplay", cosplayRoutes);
+app.use("/api/media-publication", mediaInPublicationRoutes);
 
 
 app.use((req, res) => {
