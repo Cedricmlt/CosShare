@@ -21,6 +21,7 @@ const getCosplayById = async (id_Cosplay) => {
     return rows[0];
 };
 
+// Permet d'éviter des injections SQL malveillantes.
 const getCosplayByAttributes = async (users_Id, title, univers_Id, type_Id) => {
     const sql = `SELECT * FROM cosplay
         WHERE users_Id = ? AND title = ? AND univers_Id = ? AND type_Id = ?`;
