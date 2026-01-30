@@ -15,8 +15,9 @@ const getMediaInPublicationById = async (id_Media) => {
     return rows[0];
 };
 
+// Permet d'éviter des injections SQL malveillantes.
 const getMediaInPublicationByAttributes = async (publication_Id, url, type_media) => {
-    const sql = `SELECT * FROM media_in_publication WHERE publication_Id = ? AND url = ? AND type_media = ?`
+    const sql = `SELECT * FROM media_in_publication WHERE publication_Id = ? AND url = ? AND type_media = ?`;
     const [rows] = await bdd.query(sql, [publication_Id, url, type_media]);
     return rows;
 };

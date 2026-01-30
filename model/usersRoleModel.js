@@ -32,6 +32,7 @@ const getUserRoleOfUserId = async (users_Id) => {
     return rows[0];
 };
 
+// Permet d'éviter des injections SQL malveillantes.
 const getUserRoleByAttributes = async (users_Id, role_Id) => {
     const sql = `SELECT users_role.users_Id, users_role.role_Id, users.email_connexion, users.prenom, users.nom, users.pseudo, role.libelle, role.description
         FROM users_role

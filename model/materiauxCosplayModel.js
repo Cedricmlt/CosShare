@@ -13,6 +13,7 @@ const getMateriauxCosplayById = async (id_Materiaux) => {
     return rows[0];
 };
 
+// Permet d'éviter des injections SQL malveillantes.
 const getMateriauxCosplayByAttributes = async (nom, description, estimated_cost) => {
     const sql = `SELECT * FROM materiaux_cosplay WHERE nom = ? AND description = ? AND estimated_cost = ?;`;
     const [rows] = await bdd.query(sql, [nom, description, estimated_cost]);

@@ -13,6 +13,7 @@ const getAccessoireCosplayById = async (id_Accessoires) => {
     return rows[0];
 };
 
+// Permet d'éviter des injections SQL malveillantes.
 const getAccessoiresCosplayByAttributes = async (accessoire, estimated_cost) => {
     const sql = `SELECT * FROM accessoires_cosplay WHERE accessoire = ? AND estimated_cost = ?;`;
     const [rows] = await bdd.query(sql, [accessoire, estimated_cost]);
