@@ -39,7 +39,7 @@ const createTypeCosplay = async (req, res) => {
         }
 
 
-        const existingTypeCosplay = await typeCosplayModel.getTypeCosplayById(id_Type);
+        const existingTypeCosplay = await typeCosplayModel.getTypeCosplayByAttributes(id_Type, libelle);
 
         if (existingTypeCosplay) {
             return res.status(409).json({ message: "Un type est déjà associé à un cosplay." });

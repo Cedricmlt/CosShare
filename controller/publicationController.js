@@ -34,6 +34,12 @@ const createPublication = async (req, res) => {
             return res.status(400).json({ message: "Les champs users_Id et description sont requis." });
         }
 
+        const existingPublication = await publicationModel.getPublicationByAttributes(users_Id, description);
+
+        if (existingPublication) {
+            return res.status(409).json({ message: "La publication existe déjà." });
+        }
+
         const newPublication = await publicationModel.createPublication(users_Id, description);
 
         if (newPublication) {

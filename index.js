@@ -15,6 +15,9 @@ import materiauxCosplayRoutes from "./route/materiauxCosplayRoutes.js";
 import cosplayRoutes from "./route/cosplayRoutes.js";
 import mediaInPublicationRoutes from "./route/mediaInPublicationRoutes.js";
 import cosplayEstimationRoutes from "./route/cosplayEstimationRoutes.js";
+import tagsRoutes from "./route/tagsRoutes.js";
+import publicationTagsRoutes from "./route/publicationTagsRoutes.js";
+import userPublicationLikeRoutes from "./route/userPublicationLikeRoutes.js";
 
 dotenv.config();
 
@@ -48,6 +51,9 @@ app.use("/api/materiaux-cosplay", materiauxCosplayRoutes);
 app.use("/api/cosplay", cosplayRoutes);
 app.use("/api/media-publication", mediaInPublicationRoutes);
 app.use("/api/cosplay-estimation", cosplayEstimationRoutes);
+app.use("/api/tags", tagsRoutes);
+app.use("/api/publication-tags", publicationTagsRoutes);
+app.use("/api/user-publication-like", userPublicationLikeRoutes);
 
 
 app.use((req, res) => {

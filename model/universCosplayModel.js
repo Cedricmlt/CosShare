@@ -12,6 +12,13 @@ const getUniversCosplayById = async (id_Univers) => {
     return rows[0];
 };
 
+const getUniversCosplayByAttributes = async (id_Univers, libelle) => {
+    const sql = `SELECT id_Univers, libelle FROM univers_cosplay 
+    WHERE id_Univers = ?`;
+    const [rows] = await bdd.query(sql, [id_Univers, libelle]);
+    return rows[0];
+};
+
 const createUniversCosplay = async (libelle) => {
     const sql = `INSERT INTO univers_cosplay (libelle) VALUES (?);`;
     const [result] = await bdd.query(sql, [libelle]);
@@ -33,6 +40,7 @@ const deleteUniversCosplay = async (id_Univers) => {
 export default {
     getAllUniversCosplays,
     getUniversCosplayById,
+    getUniversCosplayByAttributes,
     createUniversCosplay,
     updateUniversCosplay,
     deleteUniversCosplay

@@ -38,7 +38,7 @@ const createUniversCosplay = async (req, res) => {
             return res.status(400).json({ message: "Le libelle est requis." });
         }
 
-        const existingUniversCosplay = await universCosplayModel.getUniversCosplayById(id_Univers);
+        const existingUniversCosplay = await universCosplayModel.getUniversCosplayByAttributes(id_Univers, libelle);
 
         if (existingUniversCosplay) {
             return res.status(409).json({ message: "L'univers cosplay existe déjà." });
