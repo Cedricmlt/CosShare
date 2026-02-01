@@ -36,6 +36,12 @@ const createRole = async (req, res) => {
             return res.status(400).json({ message: "Les champs code_du_role, libelle et description sont requis." });
         }
 
+        const existingRole = await roleModel.getRoleByAttributes(code_du_role, libelle, description);
+
+        if (existingRole) {
+            return res.status(409).json({ message: "Le role existe déjà." });
+        }
+
         const newRole = await roleModel.createRole(code_du_role, libelle, description);
 
         if (newRole) {

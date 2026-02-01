@@ -12,6 +12,13 @@ const getRoleById = async (id_Role) => {
     return rows[0];
 };
 
+const getRoleByAttributes = async (code_du_role, libelle, description) => {
+    const sql = `SELECT code_du_role, libelle, description FROM role
+    WHERE code_du_role = ? AND libelle = ? AND description = ?`;
+    const [rows] = await bdd.query(sql, [code_du_role, libelle, description]);
+    return rows[0];
+};
+
 const createRole = async (code_du_role, libelle, description) => {
     const sql = `INSERT INTO role (code_du_role, libelle, description) VALUES (?, ?, ?);`;
     const [result] = await bdd.query(sql, [code_du_role, libelle, description]);
@@ -33,6 +40,7 @@ const deleteRole = async (id_Role) => {
 export default {
     getAllRoles,
     getRoleById,
+    getRoleByAttributes,
     createRole,
     updateRole,
     deleteRole

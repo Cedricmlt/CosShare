@@ -11,10 +11,19 @@ const getAllPublications = async () => {
 };
 
 const getPublicationById = async (id_Publication) => {
-    const sql = `SELECT users_Id, users.pseudo, users.email_connexion, description, cree_le, mise_a_jour, supprimee_le, en_ligne FROM publication
+    const sql = `SELECT users_Id, users.pseudo, users.email_connexion, description, cree_le, mise_a_jour, 
+    supprimee_le, en_ligne FROM publication
     INNER JOIN users ON publication.users_Id = users.id_Users
     WHERE id_Publication = ?`;
     const [rows] = await bdd.query(sql, [id_Publication]);
+    return rows[0];
+};
+
+const getPublicationByAttributes = async (users_Id, description) => {
+    const sql = `SELECT users_Id, description FROM publication
+    INNER JOIN users ON publication.users_Id = users.id_Users
+    WHERE users_Id = ? AND description = ?`;
+    const [rows] = await bdd.query(sql, [users_Id, description]);
     return rows[0];
 };
 
@@ -39,6 +48,7 @@ const deletePublication = async (id_Publication) => {
 export default {
     getAllPublications,
     getPublicationById,
+    getPublicationByAttributes,
     createPublication,
     updatePublication,
     deletePublication

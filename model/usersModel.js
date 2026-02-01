@@ -26,8 +26,7 @@ const getUserById = async (id_Users) => {
 
 const getUserByEmail = async (email_connexion) => {
 
-    const sql = `SELECT * FROM users WHERE email_connexion = ?`;
-
+    const sql = `SELECT email_connexion FROM users WHERE email_connexion = ?`;
     const [rows] = await bdd.query(sql, [email_connexion]);
     return rows[0];
 };

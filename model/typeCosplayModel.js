@@ -8,7 +8,13 @@ const getAllTypesCosplays = async () => {
 
 const getTypeCosplayById = async (id_Type, libelle) => {
     const sql = `SELECT id_Type, libelle FROM type_cosplay WHERE id_Type = ?`;
+    const [rows] = await bdd.query(sql, [id_Type, libelle]);
+    return rows[0];
+};
 
+const getTypeCosplayByAttributes = async (id_Type, libelle) => {
+    const sql = `SELECT id_Type, libelle FROM type_cosplay 
+    WHERE id_Type = ? AND libelle = ?`;
     const [rows] = await bdd.query(sql, [id_Type, libelle]);
     return rows[0];
 };
@@ -34,6 +40,7 @@ const deleteTypeCosplay = async (id_Type) => {
 export default {
     getAllTypesCosplays,
     getTypeCosplayById,
+    getTypeCosplayByAttributes,
     createTypeCosplay,
     updateTypeCosplay,
     deleteTypeCosplay
