@@ -10,14 +10,6 @@ const getAllusersPublicationsLikes = async () => {
     return rows;
 };
 
-// Cela récupère les likes non notifiés.
-const getUnnotifiedLikes = async () => {
-    const sql = `SELECT * FROM user_publication_like WHERE user_publication_like.is_notified = 0`;
-    const [rows] = await bdd.query(sql);
-    return rows;
-};
-
-
 const getUserPublicationLikeById = async (users_Id, publication_Id) => {
     const sql = `SELECT user_publication_like.users_Id, user_publication_like.publication_Id,
     users.prenom, users.nom, users.pseudo,
@@ -46,13 +38,6 @@ const createUserPublicationLike = async (users_Id, publication_Id) => {
     return result.affectedRows > 0;
 };
 
-const updateNotificationStatus = async (users_Id, publication_Id) => {
-    const sql = `UPDATE user_publication_like SET is_notified = 1 WHERE users_Id = ? AND publication_Id = ?`;
-    const [result] = await bdd.query(sql, [users_Id, publication_Id]);
-    return result.affectedRows > 0;
-};
-
-
 const deleteUserPublicationlike = async (users_Id, publication_Id) => {
     const sql = `DELETE FROM user_publication_like WHERE users_Id = ? AND publication_Id = ?;`;
     const [result] = await bdd.query(sql, [users_Id, publication_Id]);
@@ -61,10 +46,8 @@ const deleteUserPublicationlike = async (users_Id, publication_Id) => {
 
 export default {
     getAllusersPublicationsLikes,
-    getUnnotifiedLikes,
     getUserPublicationLikeById,
     getUserPublicationLikeByAttributes,
     createUserPublicationLike,
-    updateNotificationStatus,
     deleteUserPublicationlike
 }

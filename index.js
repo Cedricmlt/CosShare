@@ -18,6 +18,7 @@ import cosplayEstimationRoutes from "./route/cosplayEstimationRoutes.js";
 import tagsRoutes from "./route/tagsRoutes.js";
 import publicationTagsRoutes from "./route/publicationTagsRoutes.js";
 import userPublicationLikeRoutes from "./route/userPublicationLikeRoutes.js";
+import userPublicationCommentRoutes from "./route/userPublicationCommentRoutes.js";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use("/api/cosplay-estimation", cosplayEstimationRoutes);
 app.use("/api/tags", tagsRoutes);
 app.use("/api/publication-tags", publicationTagsRoutes);
 app.use("/api/user-publication-like", userPublicationLikeRoutes);
+app.use("/api/user-publication-comment", userPublicationCommentRoutes);
 
 
 app.use((req, res) => {
