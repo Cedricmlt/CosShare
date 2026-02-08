@@ -30,7 +30,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Permet à l'API d'accepter les requêtes venant d'un autre domaine
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Ajoute des en-têtes de sécurité pour protéger l'application contre des injections de code
 app.use(helmet());

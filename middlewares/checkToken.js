@@ -15,7 +15,9 @@ const checkToken = (req, res, next) => {
         // Vérifier et décoder le token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        req.id_Users = decoded;
+        req.id_Users = decoded.id_Users;
+
+
 
         // Passer à l'étape suivante
         next();

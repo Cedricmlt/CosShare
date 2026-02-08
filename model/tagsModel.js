@@ -14,7 +14,7 @@ const getTagById = async (id_Tag) => {
 
 // Permet d'éviter des injections SQL malveillantes.
 const getTagByAttributes = async (label) => {
-    const sql = `SELECT * FROM tags WHERE label = ?;`;
+    const sql = `SELECT label FROM tags WHERE label = ?;`;
     const [rows] = await bdd.query(sql, [label]);
     return rows[0];
 };

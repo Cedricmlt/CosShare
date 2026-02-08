@@ -94,7 +94,7 @@ const forgotPassword = async (req, res) => {
         const token = await usersModel.generateResetToken(email_connexion);
         console.log(token);
 
-        const resetLink = `http://localhost:3000/api/reset-password/${token}`;
+        const resetLink = `http://localhost:5173/reset-password/${token}`;
 
         await emailService.sendResetEmail(email_connexion, resetLink);
 
@@ -108,7 +108,8 @@ const forgotPassword = async (req, res) => {
 // Réinitialisation du mot de passe
 const resetPassword = async (req, res) => {
     try {
-        const { token, password } = req.body;
+        const { token } = req.params;
+        const { password } = req.body;
 
         if (!token || !password) {
             return res.status(400).json({ message: "Le token et le nouveau mot de passe sont requis." });
