@@ -19,6 +19,8 @@ import tagsRoutes from "./route/tagsRoutes.js";
 import publicationTagsRoutes from "./route/publicationTagsRoutes.js";
 import userPublicationLikeRoutes from "./route/userPublicationLikeRoutes.js";
 import userPublicationCommentRoutes from "./route/userPublicationCommentRoutes.js";
+import actualityRoutes from "./route/actualityRoutes.js";
+import eventsRoutes from "./route/eventsRoutes.js";
 
 dotenv.config();
 
@@ -31,9 +33,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Permet à l'API d'accepter les requêtes venant d'un autre domaine
 app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Ajoute des en-têtes de sécurité pour protéger l'application contre des injections de code
@@ -60,6 +62,8 @@ app.use("/api/tags", tagsRoutes);
 app.use("/api/publication-tags", publicationTagsRoutes);
 app.use("/api/user-publication-like", userPublicationLikeRoutes);
 app.use("/api/user-publication-comment", userPublicationCommentRoutes);
+app.use("/api/actuality", actualityRoutes);
+app.use("/api/events", eventsRoutes);
 
 
 app.use((req, res) => {
