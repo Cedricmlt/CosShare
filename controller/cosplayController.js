@@ -33,7 +33,8 @@ const createCosplay = async (req, res) => {
     try {
         const { users_Id, title, description, univers_Id, type_Id, estimated_cost } = req.body;
         if (!users_Id || !title || !description || !univers_Id || !type_Id || !estimated_cost) {
-            return res.status(400).json({ message: "Les champs users_Id, title, description, univers_Id, type_Id, estimated_cost sont requis." });
+            return res.status(400).json({ 
+                message: "Les champs users_Id, title, description, univers_Id, type_Id, estimated_cost sont requis." });
         }
 
         const existingCosplay = await cosplayModel.getCosplayByAttributes(users_Id, title, univers_Id, type_Id);

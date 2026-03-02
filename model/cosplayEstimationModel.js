@@ -89,7 +89,7 @@ const getCosplayEstimationById = async (id_Cosplay_Estimation) => {
 
 // Permet d'éviter des injections SQL malveillantes.
 const getCosplayEstimationByAttributes = async (cosplay_Id, fabrication_Id, accessoires_Id, outils_Id, materiaux_Id, users_Id) => {
-    const sql = `SELECT * FROM cosplay_estimation 
+    const sql = `SELECT cosplay_Id, fabrication_Id, accessoires_Id, outils_Id, materiaux_Id, users_Id FROM cosplay_estimation 
     WHERE cosplay_Id = ? AND fabrication_Id AND accessoires_Id = ? AND outils_Id = ?
     AND materiaux_Id = ? AND users_Id = ?`;
     const [rows] = await bdd.query(sql, [cosplay_Id, fabrication_Id, accessoires_Id, outils_Id, materiaux_Id, users_Id]);

@@ -15,7 +15,7 @@ const getFabricationCosplayById = async (id_Fabrication) => {
 
 // Permet d'éviter des injections SQL malveillantes.
 const getFabricationCosplayByAttributes = async (libelle, estimated_cost) => {
-    const sql = `SELECT FROM fabrication_cosplay WHERE libelle = ? AND estimated_cost = ?;`;
+    const sql = `SELECT libelle, estimated_cost FROM fabrication_cosplay WHERE libelle = ? AND estimated_cost = ?;`;
     const [rows] = await bdd.query(sql, [libelle, estimated_cost]);
     return rows[0];
 };
