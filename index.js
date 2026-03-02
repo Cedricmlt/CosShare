@@ -21,6 +21,7 @@ import userPublicationLikeRoutes from "./route/userPublicationLikeRoutes.js";
 import userPublicationCommentRoutes from "./route/userPublicationCommentRoutes.js";
 import actualityRoutes from "./route/actualityRoutes.js";
 import eventsRoutes from "./route/eventsRoutes.js";
+import mediaActualityRoutes from "./route/mediaActualityRoutes.js";
 
 dotenv.config();
 
@@ -64,6 +65,7 @@ app.use("/api/user-publication-like", userPublicationLikeRoutes);
 app.use("/api/user-publication-comment", userPublicationCommentRoutes);
 app.use("/api/actuality", actualityRoutes);
 app.use("/api/events", eventsRoutes);
+app.use("/api/media-actuality", mediaActualityRoutes);
 
 
 app.use((req, res) => {
