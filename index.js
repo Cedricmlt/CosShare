@@ -22,6 +22,7 @@ import userPublicationCommentRoutes from "./route/userPublicationCommentRoutes.j
 import actualityRoutes from "./route/actualityRoutes.js";
 import eventsRoutes from "./route/eventsRoutes.js";
 import mediaActualityRoutes from "./route/mediaActualityRoutes.js";
+import eventParticipantsRoutes from "./route/eventParticipantsRoutes.js";
 
 dotenv.config();
 
@@ -66,6 +67,7 @@ app.use("/api/user-publication-comment", userPublicationCommentRoutes);
 app.use("/api/actuality", actualityRoutes);
 app.use("/api/events", eventsRoutes);
 app.use("/api/media-actuality", mediaActualityRoutes);
+app.use("/api/event-participants", eventParticipantsRoutes);
 
 
 app.use((req, res) => {
