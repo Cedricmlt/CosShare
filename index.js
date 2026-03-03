@@ -24,6 +24,7 @@ import eventsRoutes from "./route/eventsRoutes.js";
 import mediaActualityRoutes from "./route/mediaActualityRoutes.js";
 import eventParticipantsRoutes from "./route/eventParticipantsRoutes.js";
 import conversationRoutes from "./route/conversationRoutes.js";
+import conversationUserRoutes from "./route/conversationUserRoutes.js";
 
 dotenv.config();
 
@@ -70,6 +71,7 @@ app.use("/api/events", eventsRoutes);
 app.use("/api/media-actuality", mediaActualityRoutes);
 app.use("/api/event-participants", eventParticipantsRoutes);
 app.use("/api/conversation", conversationRoutes);
+app.use("/api/conversation-user", conversationUserRoutes);
 
 
 app.use((req, res) => {
