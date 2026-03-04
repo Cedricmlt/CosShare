@@ -26,6 +26,7 @@ import eventParticipantsRoutes from "./route/eventParticipantsRoutes.js";
 import conversationRoutes from "./route/conversationRoutes.js";
 import conversationUserRoutes from "./route/conversationUserRoutes.js";
 import messageRoutes from "./route/messageRoutes.js";
+import categoryArticleRoutes from "./route/categoryArticleRoutes.js";
 
 dotenv.config();
 
@@ -74,6 +75,7 @@ app.use("/api/event-participants", eventParticipantsRoutes);
 app.use("/api/conversation", conversationRoutes);
 app.use("/api/conversation-user", conversationUserRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/category-article", categoryArticleRoutes);
 
 
 app.use((req, res) => {
