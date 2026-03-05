@@ -38,11 +38,11 @@ const createUserCommentArticle = async (users_Id, article_Id, commentaire) => {
     return result.affectedRows;
 };
 
-const updateUserCommentArticle = async (id_comment_article, users_Id, article_Id, commentaire) => {
+const updateUserCommentArticle = async (id_comment_article, users_Id, article_Id, commentaire, is_notified) => {
     const sql = `UPDATE user_comment_article SET user_comment_article.users_Id = ?, user_comment_article.article_Id = ?,
-    user_comment_article.commentaire = ?
+    user_comment_article.commentaire = ?, user_comment_article.is_notified = ?
     WHERE id_comment_article = ?;`;
-    const [result] = await bdd.query(sql, [users_Id, article_Id, commentaire, id_comment_article]);
+    const [result] = await bdd.query(sql, [users_Id, article_Id, commentaire, is_notified, id_comment_article]);
     return result.affectedRows;
 };
 
