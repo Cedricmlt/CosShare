@@ -30,6 +30,7 @@ import categoryArticleRoutes from "./route/categoryArticleRoutes.js";
 import articleCosplayRoutes from "./route/articleCosplayRoutes.js";
 import userCommentArticleRoutes from "./route/userCommentArticleRoutes.js";
 import userLikeArticleRoutes from "./route/userLikeArticleRoutes.js";
+import followRoutes from "./route/followRoutes.js";
 
 dotenv.config();
 
@@ -82,6 +83,7 @@ app.use("/api/category-article", categoryArticleRoutes);
 app.use("/api/article-cosplay", articleCosplayRoutes);
 app.use("/api/user-comment-article", userCommentArticleRoutes);
 app.use("/api/user-like-article", userLikeArticleRoutes);
+app.use("/api/follow", followRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });
