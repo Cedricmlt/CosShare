@@ -65,8 +65,17 @@ const createUserCommentArticle = async (req, res) => {
 const updateUserCommentArticle = async (req, res) => {
     try {
         const id_comment_article = req.params.id_comment_article;
-        const { users_Id, article_Id, commentaire } = req.body;
-        const changeUserCommentArticle = await userCommentArticleModel.updateUserCommentArticle(id_comment_article, users_Id, article_Id, commentaire);
+        const { users_Id, article_Id, commentaire, is_notified } = req.body;
+
+        if (is_notified === undefined) {
+            return res.status(400).json({ message: "Le champs is_notified est requis." });
+        }
+
+        if (![0, 1].includes(is_notified)) {
+            return res.status(400).json({ message: "La valeur de is_notified doit être 0 ou 1." });
+        }
+
+        const changeUserCommentArticle = await userCommentArticleModel.updateUserCommentArticle(id_comment_article, users_Id, article_Id, commentaire, is_notified);
 
         if (changeUserCommentArticle === 0) {
             return res.status(404).json({ message: "Aucune donnée trouvée pour la mise à jour du commentaire article." });
