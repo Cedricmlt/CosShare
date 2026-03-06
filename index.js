@@ -32,6 +32,7 @@ import userCommentArticleRoutes from "./route/userCommentArticleRoutes.js";
 import userLikeArticleRoutes from "./route/userLikeArticleRoutes.js";
 import followRoutes from "./route/followRoutes.js";
 import mediaCosplayRoutes from "./route/mediaCosplayRoutes.js";
+import notificationsRoutes from "./route/notificationsRoutes.js";
 
 dotenv.config();
 
@@ -86,6 +87,7 @@ app.use("/api/user-comment-article", userCommentArticleRoutes);
 app.use("/api/user-like-article", userLikeArticleRoutes);
 app.use("/api/follow", followRoutes);
 app.use("/api/media-cosplay", mediaCosplayRoutes);
+app.use("/api/notifications", notificationsRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });
