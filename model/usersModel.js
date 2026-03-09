@@ -33,18 +33,20 @@ const getUserByEmail = async (email_connexion) => {
 
 const searchUser = async (searchTerm) => {
 
-    const terms = searchTerm.split(' ');
+    const userSearch = searchTerm.split(' ');
 
-    if (terms.length === 1) {
-        const sql = `SELECT * FROM users WHERE prenom LIKE ? OR nom LIKE ? OR pseudo LIKE ?`;
+    if (userSearch.length === 1) {
+        const sql = `SELECT users.prenom, users.nom, users.pseudo FROM users 
+        WHERE prenom LIKE ? OR nom LIKE ? OR pseudo LIKE ?`;
 
-        const [rows] = await bdd.query(sql, [`%${terms[0]}%`, `%${terms[0]}%`, `%${terms[0]}%`]);
+        const [rows] = await bdd.query(sql, [`%${userSearch[0]}%`, `%${userSearch[0]}%`, `%${userSearch[0]}%`]);
         return rows;
-    } else if (terms.length >= 2) {
+    } else if (userSearch.length >= 2) {
 
-        const sql = `SELECT * FROM users WHERE (prenom LIKE ? AND nom LIKE ?) OR pseudo LIKE ?`;
+        const sql = `SELECT users.prenom, users.nom, users.pseudo FROM users 
+        WHERE (prenom LIKE ? AND nom LIKE ?) OR pseudo LIKE ?`;
 
-        const [rows] = await bdd.query(sql, [`%${terms[0]}%`, `%${terms[1]}%`, `%${searchTerm}%`]);
+        const [rows] = await bdd.query(sql, [`%${userSearch[0]}%`, `%${userSearch[1]}%`, `%${searchTerm}%`]);
         return rows;
 
     }

@@ -7,8 +7,8 @@
     "start": "nodemon server.js",
     "dev": "nodemon server.js",
     "test": "vitest",
-    "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage"
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   },
   "repository": {
     "type": "git",
