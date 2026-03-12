@@ -12,6 +12,10 @@ router.post("/register", usersController.createUser);
 router.post("/forgot-password", usersController.forgotPassword);
 router.post("/reset-password/:token", usersController.resetPassword);
 
+// Routes spécifiques:
+router.put("/:id_Users/commentaire", checkToken, usersController.updateCommentaire);
+router.put("/:id_Users/role", checkToken, usersController.updateRole);
+
 // Routes paramétrées:
 router.get("/", checkToken, usersController.getAllUsers);
 router.get("/:id_Users", checkToken, usersController.getUserById);

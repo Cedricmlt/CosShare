@@ -44,10 +44,27 @@ const deleteUserPublicationlike = async (users_Id, publication_Id) => {
     return result.affectedRows;
 };
 
+const countLikesByPublication = async (publication_Id) => {
+  const sql = `SELECT COUNT(*) as count FROM user_publication_like WHERE publication_Id = ?`;
+  const [rows] = await bdd.query(sql, [publication_Id]);
+  return rows[0].count;
+};
+
+const getLikersByPublication = async (publication_Id) => {
+  const sql = `SELECT users.id_Users, users.pseudo 
+  FROM user_publication_like
+  INNER JOIN users ON user_publication_like.users_Id = users.id_Users
+  WHERE user_publication_like.publication_Id = ?`;
+  const [rows] = await bdd.query(sql, [publication_Id]);
+  return rows;
+};
+
 export default {
     getAllusersPublicationsLikes,
     getUserPublicationLikeById,
     getUserPublicationLikeByAttributes,
     createUserPublicationLike,
-    deleteUserPublicationlike
+    deleteUserPublicationlike,
+    countLikesByPublication,
+    getLikersByPublication
 }

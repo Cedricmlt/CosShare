@@ -26,7 +26,8 @@ const getUserById = async (id_Users) => {
 
 const getUserByEmail = async (email_connexion) => {
 
-    const sql = `SELECT id_Users, email_connexion, password FROM users WHERE email_connexion = ?`;
+    const sql = `SELECT id_Users, email_connexion, password, type_de_compte FROM users 
+    WHERE email_connexion = ?`;
     const [rows] = await bdd.query(sql, [email_connexion]);
     return rows[0];
 };
@@ -36,17 +37,28 @@ const searchUser = async (searchTerm) => {
     const userSearch = searchTerm.split(' ');
 
     if (userSearch.length === 1) {
-        const sql = `SELECT users.prenom, users.nom, users.pseudo FROM users 
-        WHERE prenom LIKE ? OR nom LIKE ? OR pseudo LIKE ?`;
+        const sql = `SELECT users.id_Users, users.prenom, users.nom, users.pseudo, users.compte_actif, users.type_de_compte FROM users 
+        WHERE prenom LIKE ? OR nom LIKE ? OR pseudo LIKE ? OR email_connexion LIKE ?`;
 
-        const [rows] = await bdd.query(sql, [`%${userSearch[0]}%`, `%${userSearch[0]}%`, `%${userSearch[0]}%`]);
+        const [rows] = await bdd.query(sql, [
+            `%${userSearch[0]}%`,
+            `%${userSearch[0]}%`,
+            `%${userSearch[0]}%`,
+            `%${userSearch[0]}%`
+        ]);
         return rows;
+
     } else if (userSearch.length >= 2) {
 
-        const sql = `SELECT users.prenom, users.nom, users.pseudo FROM users 
-        WHERE (prenom LIKE ? AND nom LIKE ?) OR pseudo LIKE ?`;
+        const sql = `SELECT users.id_Users, users.prenom, users.nom, users.pseudo, users.compte_actif FROM users 
+        WHERE (prenom LIKE ? AND nom LIKE ?) OR pseudo LIKE ? OR email_connexion LIKE ?`;
 
-        const [rows] = await bdd.query(sql, [`%${userSearch[0]}%`, `%${userSearch[1]}%`, `%${searchTerm}%`]);
+        const [rows] = await bdd.query(sql, [
+            `%${userSearch[0]}%`,
+            `%${userSearch[1]}%`,
+            `%${searchTerm}%`,
+            `%${searchTerm}%`
+        ]);
         return rows;
 
     }
@@ -101,11 +113,11 @@ const createUser = async (email_connexion, password, prenom, nom, pseudo, type_d
     return result.insertId;
 };
 
-const updateUser = async (id_Users, email_connexion, password, prenom, nom, pseudo) => {
+const updateUser = async (id_Users, email_connexion, prenom, nom, pseudo) => {
 
-    const sql = `UPDATE users SET email_connexion = ?, password = ?, prenom = ?, nom = ?, pseudo = ? WHERE id_Users = ?;`;
+    const sql = `UPDATE users SET email_connexion = ?, prenom = ?, nom = ?, pseudo = ? WHERE id_Users = ?;`;
 
-    const [result] = await bdd.query(sql, [email_connexion, password, prenom, nom, pseudo, id_Users]);
+    const [result] = await bdd.query(sql, [email_connexion, prenom, nom, pseudo, id_Users]);
     return result.affectedRows;
 };
 
@@ -114,6 +126,18 @@ const deleteUser = async (id_Users) => {
     const sql = `DELETE FROM users WHERE id_Users = ?;`;
 
     const [result] = await bdd.query(sql, [id_Users]);
+    return result.affectedRows;
+};
+
+const updateCommentaire = async (id_Users, commentaire_interne) => {
+    const sql = `UPDATE users SET commentaire_interne = ? WHERE id_Users = ?`;
+    const [result] = await bdd.query(sql, [commentaire_interne, id_Users]);
+    return result.affectedRows;
+};
+
+const updateRole = async (id_Users, type_de_compte) => {
+    const sql = `UPDATE users SET type_de_compte = ? WHERE id_Users = ?`;
+    const [result] = await bdd.query(sql, [type_de_compte, id_Users]);
     return result.affectedRows;
 };
 
@@ -128,5 +152,7 @@ export default {
     updatePassword,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateCommentaire,
+    updateRole
 };

@@ -176,9 +176,9 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const id_Users = req.params.id_Users;
-        const { email_connexion, password, prenom, nom, pseudo } = req.body;
-        const passwordHashed = bcrypt.hashSync(password, 10);
-        const updatePeople = await usersModel.updateUser(id_Users, email_connexion, passwordHashed, prenom, nom, pseudo);
+        const { email_connexion, prenom, nom, pseudo } = req.body;
+
+        const updatePeople = await usersModel.updateUser(id_Users, email_connexion, prenom, nom, pseudo);
 
         if (updatePeople === 0) {
             return res.status(404).json({ message: "Aucun utilisateur trouvé pour la mise à jour. ❌" });
@@ -228,7 +228,8 @@ const login = async (req, res) => {
         const token = jwt.sign(
             {
                 id_Users: people.id_Users,
-                email_connexion: people.email_connexion
+                email_connexion: people.email_connexion,
+                type_de_compte: people.type_de_compte
             },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
@@ -241,6 +242,42 @@ const login = async (req, res) => {
     }
 };
 
+const updateCommentaire = async (req, res) => {
+    try {
+        const id_Users = req.params.id_Users;
+        const { commentaire_interne } = req.body;
+
+        const result = await usersModel.updateCommentaire(id_Users, commentaire_interne);
+
+        if (result === 0) {
+            return res.status(404).json({ message: "Utilisateur introuvable. ❌" });
+        }
+        return res.status(200).json({ message: "Commentaire mis à jour avec succès. ✅" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Mise à jour du commentaire impossible." });
+    }
+};
+
+const updateRole = async (req, res) => {
+  try {
+    const id_Users = req.params.id_Users;
+    const { type_de_compte } = req.body;
+
+    if (!["admin", "user"].includes(type_de_compte)) {
+      return res.status(400).json({ message: "Rôle invalide." });
+    }
+
+    const result = await usersModel.updateRole(id_Users, type_de_compte);
+    if (result === 0) {
+      return res.status(404).json({ message: "Utilisateur introuvable." });
+    }
+    return res.status(200).json({ message: "Rôle mis à jour ✅" });
+  } catch (error) {
+    return res.status(500).json({ message: "Mise à jour du rôle impossible." });
+  }
+};
+
 export default {
     getAllUsers,
     getUserById,
@@ -251,5 +288,7 @@ export default {
     createUser,
     updateUser,
     deleteUser,
-    login
+    login,
+    updateCommentaire,
+    updateRole
 };
