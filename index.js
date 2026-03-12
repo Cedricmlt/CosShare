@@ -34,6 +34,7 @@ import followRoutes from "./route/followRoutes.js";
 import mediaCosplayRoutes from "./route/mediaCosplayRoutes.js";
 import notificationsRoutes from "./route/notificationsRoutes.js";
 import reglagesRoutes from "./route/reglagesRoutes.js";
+import ticketsRoutes from './route/ticketsRoutes.js';
 
 dotenv.config();
 
@@ -90,6 +91,7 @@ app.use("/api/follow", followRoutes);
 app.use("/api/media-cosplay", mediaCosplayRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/reglages", reglagesRoutes);
+app.use('/api/tickets', ticketsRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });

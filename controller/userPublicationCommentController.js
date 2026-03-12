@@ -58,10 +58,10 @@ const createUserPublicationComment = async (req, res) => {
 
 const updateUserPublicationComment = async (req, res) => {
     try {
-        const { users_Id, publication_Id } = req.params;
+        const { id_comment } = req.params;
         const { commentaire } = req.body;
 
-        const changeUserComment = await userPublicationCommentModel.updateUserPublicationComment(users_Id, publication_Id, commentaire);
+        const changeUserComment = await userPublicationCommentModel.updateUserPublicationComment(id_comment, commentaire);
 
         if (changeUserComment === 0) {
             return res.status(404).json({ message: "Aucun commentaire trouvé pour la mise à jour." });
@@ -77,8 +77,8 @@ const updateUserPublicationComment = async (req, res) => {
 
 const deleteUserPublicationComment = async (req, res) => {
     try {
-        const { users_Id, publication_Id } = req.params;
-        const suppUserComment = await userPublicationCommentModel.deleteUserPublicationComment(users_Id, publication_Id);
+        const { id_comment } = req.params;
+        const suppUserComment = await userPublicationCommentModel.deleteUserPublicationComment(id_comment);
 
         if (suppUserComment === 0) {
             return res.status(404).json({ message: "Aucun commentaire trouvé pour la suppression." });
@@ -93,11 +93,23 @@ const deleteUserPublicationComment = async (req, res) => {
     }
 };
 
+const getCommentsByPublication = async (req, res) => {
+  try {
+    const { publication_Id } = req.params;
+    const comments = await userPublicationCommentModel.getCommentsByPublication(publication_Id);
+    return res.status(200).json({ comments });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Erreur lors de la récupération des commentaires." });
+  }
+};
+
 export default {
     getAllUsersPublicationsComment,
     getUserPublicationCommentById,
     createUserPublicationComment,
     updateUserPublicationComment,
-    deleteUserPublicationComment
+    deleteUserPublicationComment,
+    getCommentsByPublication
 }
 

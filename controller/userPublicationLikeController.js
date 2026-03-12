@@ -17,7 +17,9 @@ const getUserPublicationLikeById = async (req, res) => {
         const userPublicationLikeId = await userPublicationLikeModel.getUserPublicationLikeById(users_Id, publication_Id);
 
         if (userPublicationLikeId) {
-            return res.status(200).json({ message: "Récupération des likes utilisateurs via l'ID réussie. ✅", userPublicationLikeId });
+            return res.status(200).json(
+                { message: "Récupération des likes utilisateurs via l'ID réussie. ✅", 
+                    exists: true, userPublicationLikeId });
         } else {
             return res.status(404).json({ message: "Aucune donnée trouvée." });
         }
@@ -73,9 +75,33 @@ const deleteUserPublicationlike = async (req, res) => {
     }
 };
 
+const countLikesByPublication = async (req, res) => {
+  try {
+    const { publication_Id } = req.params;
+    const count = await userPublicationLikeModel.countLikesByPublication(publication_Id);
+    return res.status(200).json({ count });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Erreur lors du comptage des likes." });
+  }
+};
+
+const getLikersByPublication = async (req, res) => {
+  try {
+    const { publication_Id } = req.params;
+    const likers = await userPublicationLikeModel.getLikersByPublication(publication_Id);
+    return res.status(200).json({ likers });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Erreur lors de la récupération des likers." });
+  }
+};
+
 export default {
     getAllusersPublicationsLikes,
     getUserPublicationLikeById,
     createUserPublicationLike,
-    deleteUserPublicationlike
+    deleteUserPublicationlike,
+    countLikesByPublication,
+    getLikersByPublication
 }
