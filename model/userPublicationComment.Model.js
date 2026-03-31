@@ -63,7 +63,8 @@ const getCommentsByPublication = async (publication_Id) => {
     user_publication_comment.users_Id, 
     user_publication_comment.publication_Id,
     user_publication_comment.commentaire,
-    users.pseudo
+    users.pseudo,
+    users.photo_profil
     FROM user_publication_comment
     INNER JOIN users ON user_publication_comment.users_Id = users.id_Users
     WHERE user_publication_comment.publication_Id = ?`;

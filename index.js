@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
-import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
 import usersRoutes from "./route/usersRoutes.js";
 import publicationsRoutes from "./route/publicationsRoutes.js";
 import rolesRoutes from "./route/rolesRoutes.js";
@@ -35,14 +35,21 @@ import mediaCosplayRoutes from "./route/mediaCosplayRoutes.js";
 import notificationsRoutes from "./route/notificationsRoutes.js";
 import reglagesRoutes from "./route/reglagesRoutes.js";
 import ticketsRoutes from './route/ticketsRoutes.js';
+import logsRoutes from './route/logsRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { connectMongo } from './config/mongodb.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
+await connectMongo();
 
 const app = express();
 
 app.use(express.json());
 
-// Permet de parser les données de formulaire
 app.use(express.urlencoded({ extended: true }));
 
 // Permet à l'API d'accepter les requêtes venant d'un autre domaine
@@ -53,7 +60,11 @@ app.use(cors({
 }));
 
 // Ajoute des en-têtes de sécurité pour protéger l'application contre des injections de code
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
     res.send('Bienvenue sur l\'API CosShare !');
@@ -92,6 +103,7 @@ app.use("/api/media-cosplay", mediaCosplayRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/reglages", reglagesRoutes);
 app.use('/api/tickets', ticketsRoutes);
+app.use('/api/logs', logsRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route non trouvée' });

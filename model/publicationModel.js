@@ -2,7 +2,7 @@ import bdd from "../config/bdd.js";
 
 const getAllPublications = async () => {
     const sql = `SELECT publication.id_Publication, 
-    publication.users_Id, users.pseudo, users.email_connexion, publication.description, 
+    publication.users_Id, users.pseudo, users.email_connexion, users.photo_profil, publication.description, 
     publication.cree_le, publication.mise_a_jour, publication.supprimee_le, publication.en_ligne 
     FROM publication
     INNER JOIN users ON publication.users_Id = users.id_Users`;

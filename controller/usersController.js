@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import emailService from "../services/emailService.js";
+import logService from "../services/logService.js";
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const getAllUsers = async (req, res) => {
         const users = await usersModel.getAllUsers();
         return res.status(200).json({ message: "Récupération des utilisateurs réussie ✅", users });
     } catch (error) {
-        return res.status(500).json({ message: "Impossible de récupérer tous les utilisateurs ❌" });
+        return res.status(500).json({ message: "Impossible de récupérer tous les utilisateurs." });
     }
 };
 
@@ -26,7 +27,7 @@ const getUserById = async (req, res) => {
             return res.status(404).json({ message: "Aucun utilisateur associé via l'ID." });
         }
     } catch (error) {
-        return res.status(500).json({ message: "Impossible de récupérer l'utilisateur via son ID ❌" });
+        return res.status(500).json({ message: "Impossible de récupérer l'utilisateur via son ID." });
     }
 };
 
@@ -133,7 +134,8 @@ const createUser = async (req, res) => {
     try {
         const { email_connexion, password, prenom, nom, pseudo } = req.body;
         if (!email_connexion || !password || !prenom || !nom || !pseudo) {
-            return res.status(400).json({ message: `Les informations: email_connexion, password, prenom, nom et pseudo sont requis.` });
+            return res.status(400).json(
+                { message: `Les informations: email_connexion, password, prenom, nom et pseudo sont requis.` });
         }
 
         const existingUser = await usersModel.getUserByEmail(email_connexion);
@@ -160,11 +162,18 @@ const createUser = async (req, res) => {
             email_verified
         );
 
+        await logService.createLog(
+            newUser,
+            pseudo,
+            "register",
+            `Nouveau compte créé avec l'email ${email_connexion}`
+        );
+
         if (newUser) {
 
             return res.status(201).json({ message: "Création d'un utilisateur réussie ✅", newUser });
         } else {
-            return res.status(404).json({ message: "Impossible de créer l'utilisateur ❌." });
+            return res.status(404).json({ message: "Impossible de créer l'utilisateur." });
         }
 
     } catch (error) {
@@ -176,12 +185,12 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const id_Users = req.params.id_Users;
-        const { email_connexion, prenom, nom, pseudo } = req.body;
+        const { email_connexion, prenom, nom, pseudo, photo_profil } = req.body;
 
-        const updatePeople = await usersModel.updateUser(id_Users, email_connexion, prenom, nom, pseudo);
+        const updatePeople = await usersModel.updateUser(id_Users, email_connexion, prenom, nom, pseudo, photo_profil);
 
         if (updatePeople === 0) {
-            return res.status(404).json({ message: "Aucun utilisateur trouvé pour la mise à jour. ❌" });
+            return res.status(404).json({ message: "Aucun utilisateur trouvé pour la mise à jour." });
         } else {
             return res.status(200).json({ message: "Mise à jour de l'utilisateur réussie. ✅", updatePeople });
         }
@@ -194,6 +203,13 @@ const deleteUser = async (req, res) => {
     try {
         const id_Users = req.params.id_Users;
         const deletePeople = await usersModel.deleteUser(id_Users);
+
+        await logService.createLog(
+            id_Users,
+            "inconnu",
+            "delete_account",
+            `Compte supprimé`
+        );
 
         if (deletePeople === 0) {
             return res.status(404).json({ message: "Aucun utilisateur associé pour la suppression." });
@@ -222,7 +238,7 @@ const login = async (req, res) => {
         const isPasswordValid = bcrypt.compareSync(password, people.password);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ message: "E-mail ou mot de passe incorrect. ❌" });
+            return res.status(401).json({ message: "E-mail ou mot de passe incorrect." });
         }
 
         const token = jwt.sign(
@@ -234,6 +250,15 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
+
+        const pseudo = people.pseudo;
+        await logService.createLog(
+            people.id_Users,
+            pseudo,
+            "login",
+            `Connexion réussie depuis ${req.ip}`
+        );
+
         return res.status(200).json({ message: "Connexion réussie ✅", token });
 
     } catch (error) {
@@ -250,7 +275,7 @@ const updateCommentaire = async (req, res) => {
         const result = await usersModel.updateCommentaire(id_Users, commentaire_interne);
 
         if (result === 0) {
-            return res.status(404).json({ message: "Utilisateur introuvable. ❌" });
+            return res.status(404).json({ message: "Utilisateur introuvable." });
         }
         return res.status(200).json({ message: "Commentaire mis à jour avec succès. ✅" });
     } catch (error) {
@@ -260,22 +285,43 @@ const updateCommentaire = async (req, res) => {
 };
 
 const updateRole = async (req, res) => {
-  try {
-    const id_Users = req.params.id_Users;
-    const { type_de_compte } = req.body;
+    try {
+        const id_Users = req.params.id_Users;
+        const { type_de_compte } = req.body;
 
-    if (!["admin", "user"].includes(type_de_compte)) {
-      return res.status(400).json({ message: "Rôle invalide." });
-    }
+        if (!["admin", "user"].includes(type_de_compte)) {
+            return res.status(400).json({ message: "Rôle invalide." });
+        }
 
-    const result = await usersModel.updateRole(id_Users, type_de_compte);
-    if (result === 0) {
-      return res.status(404).json({ message: "Utilisateur introuvable." });
+        const result = await usersModel.updateRole(id_Users, type_de_compte);
+        if (result === 0) {
+            return res.status(404).json({ message: "Utilisateur introuvable." });
+        }
+        return res.status(200).json({ message: "Rôle mis à jour ✅" });
+    } catch (error) {
+        return res.status(500).json({ message: "Mise à jour du rôle impossible." });
     }
-    return res.status(200).json({ message: "Rôle mis à jour ✅" });
-  } catch (error) {
-    return res.status(500).json({ message: "Mise à jour du rôle impossible." });
-  }
+};
+
+const updatePhoto = async (req, res) => {
+    console.log("updatePhoto appelé");
+    console.log("req.file :", req.file);
+    try {
+        const id_Users = req.params.id_Users;
+        console.log("id_Users :", id_Users);
+        if (!req.file) {
+            return res.status(400).json({ message: "Aucun fichier envoyé." });
+        }
+
+        const photo_profil = `http://localhost:3000/uploads/${req.file.filename}`;
+        console.log("photo_profil :", photo_profil);
+        const result = await usersModel.updatePhotoProfile(id_Users, photo_profil);
+        console.log("result :", result);
+        return res.status(200).json({ message: "Photo de profil mise à jour ✅", photo_profil });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Mise à jour de la photo impossible." });
+    }
 };
 
 export default {
@@ -290,5 +336,6 @@ export default {
     deleteUser,
     login,
     updateCommentaire,
-    updateRole
+    updateRole,
+    updatePhoto
 };

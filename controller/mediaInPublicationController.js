@@ -28,27 +28,47 @@ const getMediaInPublicationById = async (req, res) => {
     }
 };
 
+const getMediaByPublication = async (req, res) => {
+  try {
+    const publication_Id = req.params.publication_Id;
+    const medias = await mediaInPublicationModel.getMediaByPublication(publication_Id);
+    return res.status(200).json({ message: "Médias récupérés ✅", medias });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Impossible de récupérer les médias." });
+  }
+};
+
 const createMediaInPublication = async (req, res) => {
     try {
-        const { publication_Id, url, type_media } = req.body;
+        const { publication_Id } = req.body;
 
-        if (!publication_Id || !url || !type_media) {
-            return res.status(400).json({ message: "Les champs publication_Id, url, type_media sont requis." });
+        if (!publication_Id) {
+            return res.status(400).json({ message: "Le champ publication_Id est requis." });
         }
 
-        const existingMediaInPublication = await mediaInPublicationModel.getMediaInPublicationByAttributes(publication_Id, url, type_media);
+        const urls = req.body.urls
+            ? Array.isArray(req.body.urls) ? req.body.urls : [req.body.urls]
+            : [];
 
-        if (existingMediaInPublication.length > 0) {
-            return res.status(409).json({ message: "Les données media existent déjà." });
+        const results = [];
+
+        if (req.files && req.files.length > 0) {
+            for (const file of req.files) {
+                const url = `http://localhost:3000/uploads/${file.filename}`;
+                const media = await mediaInPublicationModel.createMediaInPublication(publication_Id, url, 'image');
+                results.push(media);
+            }
         }
 
-        const addMediaInPublication = await mediaInPublicationModel.createMediaInPublication(publication_Id, url, type_media);
-
-        if (!addMediaInPublication) {
-            return res.status(404).json({ message: "Impossible de créer un media." });
-        } else {
-            return res.status(201).json({ message: "Création du média réussie. ✅", addMediaInPublication });
+        if (urls.length > 0) {
+            for (const url of urls) {
+                const media = await mediaInPublicationModel.createMediaInPublication(publication_Id, url, 'image');
+                results.push(media);
+            }
         }
+
+        return res.status(201).json({ message: "Création du média réussie. ✅", results });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Un problème est survenu lors de la création du média." });
@@ -94,6 +114,7 @@ const deleteMediaInPublication = async (req, res) => {
 export default {
     getAllMediasInPublication,
     getMediaInPublicationById,
+    getMediaByPublication,
     createMediaInPublication,
     updateMediaInPublication,
     deleteMediaInPublication

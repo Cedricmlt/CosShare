@@ -51,7 +51,7 @@ const countLikesByPublication = async (publication_Id) => {
 };
 
 const getLikersByPublication = async (publication_Id) => {
-  const sql = `SELECT users.id_Users, users.pseudo 
+  const sql = `SELECT users.id_Users, users.pseudo, users.photo_profil 
   FROM user_publication_like
   INNER JOIN users ON user_publication_like.users_Id = users.id_Users
   WHERE user_publication_like.publication_Id = ?`;
