@@ -22,6 +22,12 @@ const getMediaInPublicationByAttributes = async (publication_Id, url, type_media
     return rows;
 };
 
+const getMediaByPublication = async (publication_Id) => {
+    const sql = `SELECT id_Media, url, type_media FROM media_in_publication WHERE publication_Id = ?`;
+    const [rows] = await bdd.query(sql, [publication_Id]);
+    return rows;
+};
+
 const createMediaInPublication = async (publication_Id, url, type_media) => {
     const sql = `INSERT INTO media_in_publication (publication_Id, url, type_media) VALUES (?, ?, ?);`;
     const [result] = await bdd.query(sql, [publication_Id, url, type_media]);
@@ -45,6 +51,7 @@ export default {
     getAllMediasInPublication,
     getMediaInPublicationById,
     getMediaInPublicationByAttributes,
+    getMediaByPublication,
     createMediaInPublication,
     updateMediaInPublication,
     deleteMediaInPublication

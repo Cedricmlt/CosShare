@@ -1,12 +1,14 @@
 import mediaInPublicationController from "../controller/mediaInPublicationController.js";
 import checkToken from "../middlewares/checkToken.js";
 import express from "express";
+import { upload } from "../config/multer.js";
 
 const router = express.Router();
 
 router.get("/", checkToken, mediaInPublicationController.getAllMediasInPublication);
+router.get("/publication/:publication_Id", checkToken, mediaInPublicationController.getMediaByPublication);
 router.get("/:id_Media", checkToken, mediaInPublicationController.getMediaInPublicationById);
-router.post("/", checkToken, mediaInPublicationController.createMediaInPublication);
+router.post("/", checkToken, upload.array("images", 10), mediaInPublicationController.createMediaInPublication);
 router.put("/:id_Media", checkToken, mediaInPublicationController.updateMediaInPublication);
 router.delete("/:id_Media", checkToken, mediaInPublicationController.deleteMediaInPublication);
 

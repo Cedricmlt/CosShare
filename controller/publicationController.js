@@ -28,9 +28,10 @@ const getPublicationById = async (req, res) => {
 
 const createPublication = async (req, res) => {
     try {
-        const { users_Id, description } = req.body;
+        const users_Id = req.id_Users;
+        const { description } = req.body;
 
-        if (!users_Id | !description) {
+        if (!users_Id || !description) {
             return res.status(400).json({ message: "Les champs users_Id et description sont requis." });
         }
 
